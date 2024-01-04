@@ -42,21 +42,21 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" value= "<?= isset($_POST["street"]) ? $_POST["street"] : "" ?>" id="street" class="form-control">
+                    <input type="text" name="street" value= "<?= isset($_POST["street"]) ? $_POST["street"] : (isset($_SESSION["street"]) ? $_SESSION["street"] : "") ?>" id="street" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" value= "<?= isset($_POST["streetnumber"]) ? $_POST["streetnumber"] : "" ?>" class="form-control">
+                    <input type="text" id="streetnumber" name="streetnumber" value= "<?= isset($_POST["streetnumber"]) ? $_POST["streetnumber"] : (isset($_SESSION["streetnumber"]) ? $_SESSION["streetnumber"] : "") ?>" class="form-control">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" value= "<?= isset($_POST["city"]) ? $_POST["city"] : "" ?>" class="form-control">
+                    <input type="text" id="city" name="city" value= "<?= isset($_POST["city"]) ? $_POST["city"] : (isset($_SESSION["city"]) ? $_SESSION["city"] : "") ?>" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" value= "<?= isset($_POST["zipcode"]) ? $_POST["zipcode"] : "" ?>" class="form-control">
+                    <input type="text" id="zipcode" name="zipcode" value= "<?= isset($_POST["zipcode"]) ? $_POST["zipcode"] : (isset($_SESSION["zipcode"]) ? $_SESSION["zipcode"] : "") ?>" class="form-control">
                 </div>
             </div>
         </fieldset>

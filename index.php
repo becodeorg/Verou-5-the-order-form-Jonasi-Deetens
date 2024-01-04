@@ -58,9 +58,20 @@ function handleForm()
             echo "<div class='alert alert-danger' role='alert'>" . $error . "</div>";
         }
     } else {
+        updateSession();
         displayConfirmation();
         $_POST = [];
     }
+}
+
+function updateSession()
+{
+    $_SESSION["email"] = $_POST["email"];
+    $_SESSION["city"] = $_POST["city"];
+    $_SESSION["zipcode"] = $_POST["zipcode"];
+    $_SESSION["street"] = $_POST["street"];
+    $_SESSION["streetnumber"] = $_POST["streetnumber"];
+    $_SESSION["products"] = $_POST["products"];
 }
 
 function displayConfirmation()
@@ -80,7 +91,7 @@ function displayConfirmation()
 
 // TODO: replace this if by an actual check for the form to be submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    whatIsHappening();
+    //whatIsHappening();
     handleForm();
 }
 
