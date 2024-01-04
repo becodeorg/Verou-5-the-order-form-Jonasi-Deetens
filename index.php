@@ -34,8 +34,18 @@ $totalValue = 0;
 
 function validate()
 {
+    $invalidFields = [];
     // TODO: This function will send a list of invalid fields back
-    return [];
+    if (empty($_POST["zipcode"])) $invalidFields[] = "Zipcode can't be empty.";
+    else if (!is_numeric($_POST["zipcode"])) $invalidFields[] = "Zipcode has to be a number.";
+    if (empty($_POST["email"])) $invalidFields[] = "E-mail can't be empty.";
+    else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) $invalidFields[] = "Please fill in a valid email.";
+    if (empty($_POST["city"])) $invalidFields[] = "City can't be empty.";
+    if (empty($_POST["street"])) $invalidFields[] = "Street can't be empty.";
+    if (empty($_POST["streetnumber"])) $invalidFields[] = "Street number can't be empty.";
+    if (!isset($_POST["products"])) $invalidFields[] = "Please select a product!";
+
+    return $invalidFields;
 }
 
 function handleForm()
@@ -44,7 +54,9 @@ function handleForm()
     // Validation (step 2)
     $invalidFields = validate();
     if (!empty($invalidFields)) {
-        // TODO: handle errors
+        foreach ($invalidFields as $error) {
+            echo "<div class='alert alert-danger' role='alert'>" . $error . "</div>";
+        }
     } else {
         displayConfirmation();
     }
