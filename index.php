@@ -59,6 +59,7 @@ function handleForm()
         }
     } else {
         displayConfirmation();
+        $_POST = [];
     }
 }
 
@@ -74,7 +75,7 @@ function displayConfirmation()
 
     $confirmationMessage .= ". You order will be delivered shortly to " . $_POST["street"] . " " . $_POST["streetnumber"] . ", " . $_POST["city"] . " " . $_POST["zipcode"] . " !";
 
-    echo $confirmationMessage;
+    echo "<div class='alert alert-success' role='alert'>" . $confirmationMessage . "</div>";
 }
 
 // TODO: replace this if by an actual check for the form to be submitted
