@@ -23,7 +23,11 @@ function whatIsHappening() {
 
 // TODO: provide some products (you may overwrite the example)
 $products = [
-    ['name' => 'Your favourite drink', 'price' => 2.5],
+    ['name' => 'Cloud-in-a-Jar Kit', 'price' => 25],
+    ['name' => 'Portable Fog Machine', 'price' => 15],
+    ['name' => 'Hailstone Stress Balls', 'price' => 2],
+    ['name' => 'Storm Chaser Binoculars', 'price' => 5],
+    ['name' => 'Rainbow Forecast Umbrellas', 'price' => 250]
 ];
 
 $totalValue = 0;
@@ -37,19 +41,33 @@ function validate()
 function handleForm()
 {
     // TODO: form related tasks (step 1)
-
     // Validation (step 2)
     $invalidFields = validate();
     if (!empty($invalidFields)) {
         // TODO: handle errors
     } else {
-        // TODO: handle successful submission
+        displayConfirmation();
     }
 }
 
+function displayConfirmation()
+{
+    global $products;
+
+    $confirmationMessage = "Thank you for ordering:";
+
+    foreach ($_POST["products"] as $index => $product) {
+        $confirmationMessage .= " " . $products[$index]["name"];
+    }
+
+    $confirmationMessage .= ". You order will be delivered shortly to " . $_POST["street"] . " " . $_POST["streetnumber"] . ", " . $_POST["city"] . " " . $_POST["zipcode"] . " !";
+
+    echo $confirmationMessage;
+}
+
 // TODO: replace this if by an actual check for the form to be submitted
-$formSubmitted = false;
-if ($formSubmitted) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    whatIsHappening();
     handleForm();
 }
 
