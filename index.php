@@ -37,7 +37,10 @@ $weatherProducts = [
     ['name' => 'Stormy Weather', 'price' => 1.99]
 ];
 
+$orders = isset($_COOKIE["orders"]) ? json_decode($_COOKIE["orders"], true) : [];
+
 $totalValue = isset($_COOKIE["totalvalue"]) ? $_COOKIE["totalvalue"] : 0;
+$totalNumberOfProducts = isset($_COOKIE["totalnumberofproducts"]) ? $_COOKIE["totalnumberofproducts"] : 0;
 function validate()
 {
     $invalidFields = [];
@@ -65,27 +68,23 @@ function handleForm()
         }
     } else {
         displayConfirmation();
-        updateSessionAndCookies();
+        updateSession();
         $_POST = [];
     }
 }
 
-function updateSessionAndCookies()
+function updateSession()
 {
-    global $totalValue;
-
     $_SESSION["email"] = $_POST["email"];
     $_SESSION["city"] = $_POST["city"];
     $_SESSION["zipcode"] = $_POST["zipcode"];
     $_SESSION["street"] = $_POST["street"];
     $_SESSION["streetnumber"] = $_POST["streetnumber"];
-
-    setcookie("totalvalue", strval($totalValue), time() + (86400 * 30)); 
 }
 
 function displayConfirmation()
 {
-    global $products, $weatherProducts, $totalValue;
+    global $products, $weatherProducts, $totalValue, $totalNumberOfProducts, $orders;
 
     $confirmationMessage = "Thank you for ordering:";
 
@@ -93,11 +92,14 @@ function displayConfirmation()
         if ($_GET["weather"] == 0) {
             $confirmationMessage .= " " . $products[$index]["name"] . " x " . $_POST["amounts"][$index];
             $totalValue += $products[$index]["price"] * $_POST["amounts"][$index];
+            $orders[] = ["product" => $products[$index], "amount" => $_POST["amounts"][$index]];
         }
         else if ($_GET["weather"] == 1) {
             $confirmationMessage .= " " . $weatherProducts[$index]["name"] . " x " . $_POST["amounts"][$index];
             $totalValue += $weatherProducts[$index]["price"] * $_POST["amounts"][$index];
+            $orders[] = ["product" => $weatherProducts[$index], "amount" => $_POST["amounts"][$index]];
         }
+        $totalNumberOfProducts += $_POST["amounts"][$index];
     }
 
     $confirmationMessage .= ". You order will be delivered shortly to " . $_POST["street"] . " " . $_POST["streetnumber"] . ", " . $_POST["city"] . " " . $_POST["zipcode"] . " !<br>";
@@ -108,6 +110,10 @@ function displayConfirmation()
     } else {
         $confirmationMessage .= "Expected delivery time is 2 hours.";
     }
+
+    setcookie("totalvalue", strval($totalValue), time() + (86400 * 30));
+    setcookie("totalnumberofproducts", strval($totalNumberOfProducts), time() + (86400 * 30));
+    setcookie("orders", json_encode($orders), time() + (86400 * 30));
     
     echo "<div class='alert alert-success' role='alert'>" . $confirmationMessage . "</div>";
 }

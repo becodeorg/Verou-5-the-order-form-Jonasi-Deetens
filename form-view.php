@@ -60,7 +60,7 @@
 
         <fieldset>
             <legend>Products</legend>
-            <?php if ($_GET["weather"] == 0) : ?>
+            <?php if (!isset($_GET["weather"]) || $_GET["weather"] == 0) : ?>
                 <?php foreach ($products as $i => $product): ?>
                     <label>
                         <?php // <?= is equal to <?php echo ?>
@@ -81,7 +81,10 @@
         <button type="submit" class="btn btn-primary">Order!</button>
     </form>
 
-    <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in gear and weather.</footer>
+    <footer>
+        <p>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in gear and weather.</p>
+        <p>You ordered a total of <strong><?= $totalNumberOfProducts ?></strong> products.</p>
+    </footer>
 </div>
 
 <style>
