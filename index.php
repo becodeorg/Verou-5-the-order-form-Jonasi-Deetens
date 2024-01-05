@@ -38,6 +38,7 @@ $weatherProducts = [
 ];
 
 $orders = isset($_COOKIE["orders"]) ? json_decode($_COOKIE["orders"], true) : [];
+var_dump($orders);
 
 $topProduct = getTopProduct();
 $totalValue = isset($_COOKIE["totalvalue"]) ? $_COOKIE["totalvalue"] : 0;
@@ -97,6 +98,21 @@ function updateSession()
     $_SESSION["streetnumber"] = $_POST["streetnumber"];
 }
 
+function updateOrders(array $product, string $amount)
+{
+    global $orders;
+
+    $containsProduct = false;
+    foreach ($orders as &$order) {
+        if ($order["product"]["name"] == $product["name"]) {
+            $containsProduct = true;
+            $order["amount"] += intval($amount);
+        }
+    }
+
+    if (!$containsProduct) $orders[] = ["product" => $product, "amount" => $amount];
+}
+
 function displayConfirmation()
 {
     global $products, $weatherProducts, $totalValue, $totalNumberOfProducts, $orders;
@@ -107,12 +123,12 @@ function displayConfirmation()
         if ($_GET["weather"] == 0) {
             $confirmationMessage .= " " . $products[$index]["name"] . " x " . $_POST["amounts"][$index];
             $totalValue += $products[$index]["price"] * $_POST["amounts"][$index];
-            $orders[] = ["product" => $products[$index], "amount" => $_POST["amounts"][$index]];
+            updateOrders($products[$index], $_POST["amounts"][$index]);
         }
         else if ($_GET["weather"] == 1) {
             $confirmationMessage .= " " . $weatherProducts[$index]["name"] . " x " . $_POST["amounts"][$index];
             $totalValue += $weatherProducts[$index]["price"] * $_POST["amounts"][$index];
-            $orders[] = ["product" => $weatherProducts[$index], "amount" => $_POST["amounts"][$index]];
+            updateOrders($weatherProducts[$index], $_POST["amounts"][$index]);
         }
         $totalNumberOfProducts += $_POST["amounts"][$index];
     }
