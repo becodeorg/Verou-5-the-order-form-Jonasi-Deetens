@@ -14,19 +14,16 @@
 <body>
 <div class="container">
     <h1>Place your order</h1>
-    <?php // Navigation for when you need it ?>
-    <?php /*
     <nav>
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link active" href="?food=1">Order food</a>
+                <a class="nav-link active" href="?weather=0">Order gear</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?food=0">Order drinks</a>
+                <a class="nav-link" href="?weather=1">Order weather</a>
             </li>
         </ul>
     </nav>
-    */ ?>
     <form method="POST">
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -63,12 +60,20 @@
 
         <fieldset>
             <legend>Products</legend>
-            <?php foreach ($products as $i => $product): ?>
-                <label>
-					<?php // <?= is equal to <?php echo ?>
-                    <input type="checkbox" value="1" name="products[<?= $i ?>]" <?= (isset($_POST["products"]) && array_key_exists($i, $_POST["products"])) ? "checked" : "" ?>/> <?= $product['name'] ?> -
-                    &euro; <?= number_format($product['price'], 2) ?></label><br />
-            <?php endforeach; ?>
+            <?php if ($_GET["weather"] == 0) : ?>
+                <?php foreach ($products as $i => $product): ?>
+                    <label>
+                        <?php // <?= is equal to <?php echo ?>
+                        <input type="checkbox" value="1" name="products[<?= $i ?>]" <?= (isset($_POST["products"]) && array_key_exists($i, $_POST["products"])) ? "checked" : "" ?>/> <?= $product['name'] ?> -
+                        &euro; <?= number_format($product['price'], 2) ?></label><br />
+                <?php endforeach; ?>
+            <?php elseif ($_GET["weather"] == 1) : ?>
+                <?php foreach ($weatherProducts as $i => $product): ?>
+                    <label>
+                        <input type="checkbox" value="1" name="products[<?= $i ?>]" <?= (isset($_POST["products"]) && array_key_exists($i, $_POST["products"])) ? "checked" : "" ?>/> <?= $product['name'] ?> -
+                        &euro; <?= number_format($product['price'], 2) ?></label><br />
+                <?php endforeach; ?>
+            <?php endif; ?>
         </fieldset>
 
         <button type="submit" class="btn btn-primary">Order!</button>

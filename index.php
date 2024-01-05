@@ -23,11 +23,18 @@ function whatIsHappening() {
 
 // TODO: provide some products (you may overwrite the example)
 $products = [
-    ['name' => 'Cloud-in-a-Jar Kit', 'price' => 25],
-    ['name' => 'Portable Fog Machine', 'price' => 15],
-    ['name' => 'Hailstone Stress Balls', 'price' => 2],
-    ['name' => 'Storm Chaser Binoculars', 'price' => 5],
-    ['name' => 'Rainbow Forecast Umbrellas', 'price' => 250]
+    ['name' => 'Cloud-in-a-Jar Kit', 'price' => 24.99],
+    ['name' => 'Portable Fog Machine', 'price' => 14.99],
+    ['name' => 'Hailstone Stress Balls', 'price' => 1.99],
+    ['name' => 'Storm Chaser Binoculars', 'price' => 4.99],
+    ['name' => 'Rainbow Forecast Umbrellas', 'price' => 250.99]
+];
+
+$weatherProducts = [
+    ['name' => 'Sunny Weather', 'price' => 249.99],
+    ['name' => 'Rainy Weather', 'price' => 4.99],
+    ['name' => 'Cloudy Weather', 'price' => 9.99],
+    ['name' => 'Stormy Weather', 'price' => 1.99]
 ];
 
 $totalValue = 0;
