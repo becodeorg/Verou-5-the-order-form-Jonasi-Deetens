@@ -37,8 +37,7 @@ $weatherProducts = [
     ['name' => 'Stormy Weather', 'price' => 1.99]
 ];
 
-$totalValue = 0;
-
+$totalValue = isset($_SESSION["totalvalue"]) ? $_SESSION["totalvalue"] : 0;
 function validate()
 {
     $invalidFields = [];
@@ -65,26 +64,28 @@ function handleForm()
             echo "<div class='alert alert-danger' role='alert'>" . $error . "</div>";
         }
     } else {
-        updateSession();
         displayConfirmation();
+        updateSession();
         $_POST = [];
     }
 }
 
 function updateSession()
 {
+    global $totalValue;
+
     $_SESSION["email"] = $_POST["email"];
     $_SESSION["city"] = $_POST["city"];
     $_SESSION["zipcode"] = $_POST["zipcode"];
     $_SESSION["street"] = $_POST["street"];
     $_SESSION["streetnumber"] = $_POST["streetnumber"];
+    $_SESSION["totalvalue"] = $totalValue;
 }
 
 function displayConfirmation()
 {
     global $products, $weatherProducts, $totalValue;
 
-    $totalValue = 0;
     $confirmationMessage = "Thank you for ordering:";
 
     foreach ($_POST["products"] as $index => $product) {
@@ -96,11 +97,17 @@ function displayConfirmation()
             $confirmationMessage .= " " . $weatherProducts[$index]["name"] . " x " . $_POST["amounts"][$index];
             $totalValue += $weatherProducts[$index]["price"] * $_POST["amounts"][$index];
         }
-        
     }
 
-    $confirmationMessage .= ". You order will be delivered shortly to " . $_POST["street"] . " " . $_POST["streetnumber"] . ", " . $_POST["city"] . " " . $_POST["zipcode"] . " !";
-
+    $confirmationMessage .= ". You order will be delivered shortly to " . $_POST["street"] . " " . $_POST["streetnumber"] . ", " . $_POST["city"] . " " . $_POST["zipcode"] . " !<br>";
+    
+    if (isset($_POST["express"])) {
+        $totalValue += 5;
+        $confirmationMessage .= "Delivery expected within 45 minutes!";
+    } else {
+        $confirmationMessage .= "Expected delivery time is 2 hours.";
+    }
+    
     echo "<div class='alert alert-success' role='alert'>" . $confirmationMessage . "</div>";
 }
 

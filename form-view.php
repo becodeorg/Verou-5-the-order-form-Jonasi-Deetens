@@ -76,8 +76,8 @@
                         <input type="number" value="<?= isset($_POST["amounts"]) ? $_POST["amounts"][$i] : "1" ?>" name="amounts[]"/></label><br />
                 <?php endforeach; ?>
             <?php endif; ?>
-        </fieldset>
-
+        </fieldset><br>
+        <input type="checkbox" value="1" name="express"/> Express delivery for &euro; 5.</label><br>
         <button type="submit" class="btn btn-primary">Order!</button>
     </form>
 
