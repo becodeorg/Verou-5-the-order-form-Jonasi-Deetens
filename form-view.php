@@ -65,13 +65,15 @@
                     <label>
                         <?php // <?= is equal to <?php echo ?>
                         <input type="checkbox" value="1" name="products[<?= $i ?>]" <?= (isset($_POST["products"]) && array_key_exists($i, $_POST["products"])) ? "checked" : "" ?>/> <?= $product['name'] ?> -
-                        &euro; <?= number_format($product['price'], 2) ?></label><br />
+                        &euro; <?= number_format($product['price'], 2) ?></label>
+                        <input type="number" value="<?= isset($_POST["amounts"]) ? $_POST["amounts"][$i] : "1" ?>" name="amounts[]"/></label><br />
                 <?php endforeach; ?>
             <?php elseif ($_GET["weather"] == 1) : ?>
                 <?php foreach ($weatherProducts as $i => $product): ?>
                     <label>
                         <input type="checkbox" value="1" name="products[<?= $i ?>]" <?= (isset($_POST["products"]) && array_key_exists($i, $_POST["products"])) ? "checked" : "" ?>/> <?= $product['name'] ?> -
-                        &euro; <?= number_format($product['price'], 2) ?></label><br />
+                        &euro; <?= number_format($product['price'], 2) ?></label>
+                        <input type="number" value="<?= isset($_POST["amounts"]) ? $_POST["amounts"][$i] : "1" ?>" name="amounts[]"/></label><br />
                 <?php endforeach; ?>
             <?php endif; ?>
         </fieldset>

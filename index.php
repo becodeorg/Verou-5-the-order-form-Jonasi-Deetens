@@ -27,7 +27,7 @@ $products = [
     ['name' => 'Portable Fog Machine', 'price' => 14.99],
     ['name' => 'Hailstone Stress Balls', 'price' => 1.99],
     ['name' => 'Storm Chaser Binoculars', 'price' => 4.99],
-    ['name' => 'Rainbow Forecast Umbrellas', 'price' => 250.99]
+    ['name' => 'Rainbow Forecast Umbrellas', 'price' => 249.99]
 ];
 
 $weatherProducts = [
@@ -88,7 +88,7 @@ function displayConfirmation()
     $confirmationMessage = "Thank you for ordering:";
 
     foreach ($_POST["products"] as $index => $product) {
-        $confirmationMessage .= " " . $products[$index]["name"];
+        $confirmationMessage .= " " . $products[$index]["name"] . " x " . $_POST["amounts"][$index];
     }
 
     $confirmationMessage .= ". You order will be delivered shortly to " . $_POST["street"] . " " . $_POST["streetnumber"] . ", " . $_POST["city"] . " " . $_POST["zipcode"] . " !";
@@ -98,7 +98,7 @@ function displayConfirmation()
 
 // TODO: replace this if by an actual check for the form to be submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //whatIsHappening();
+    whatIsHappening();
     handleForm();
 }
 
