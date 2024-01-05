@@ -39,6 +39,7 @@ $weatherProducts = [
 
 $orders = isset($_COOKIE["orders"]) ? json_decode($_COOKIE["orders"], true) : [];
 
+$topProduct = getTopProduct();
 $totalValue = isset($_COOKIE["totalvalue"]) ? $_COOKIE["totalvalue"] : 0;
 $totalNumberOfProducts = isset($_COOKIE["totalnumberofproducts"]) ? $_COOKIE["totalnumberofproducts"] : 0;
 function validate()
@@ -59,8 +60,8 @@ function validate()
 
 function handleForm()
 {
-    // TODO: form related tasks (step 1)
-    // Validation (step 2)
+    global $topProduct;
+    
     $invalidFields = validate();
     if (!empty($invalidFields)) {
         foreach ($invalidFields as $error) {
@@ -70,6 +71,20 @@ function handleForm()
         displayConfirmation();
         updateSession();
         $_POST = [];
+        $topProduct = getTopProduct();
+    }
+}
+
+function getTopProduct()
+{
+    global $orders;
+
+    if (!empty($orders)) {
+        usort($orders, function ($a, $b) {
+            return $b['amount'] <=> $a['amount'];
+        });
+    
+        return $orders[0]["product"];
     }
 }
 

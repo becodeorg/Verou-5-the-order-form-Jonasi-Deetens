@@ -82,8 +82,10 @@
     </form>
 
     <footer>
+        <h1>Statistics:</h1>
         <p>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in gear and weather.</p>
         <p>You ordered a total of <strong><?= $totalNumberOfProducts ?></strong> products.</p>
+        <p>Your top product is <strong><?= $topProduct["name"] ?></strong>.</p>
     </footer>
 </div>
 
