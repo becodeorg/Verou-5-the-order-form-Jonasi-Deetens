@@ -78,17 +78,25 @@ function updateSession()
     $_SESSION["zipcode"] = $_POST["zipcode"];
     $_SESSION["street"] = $_POST["street"];
     $_SESSION["streetnumber"] = $_POST["streetnumber"];
-    $_SESSION["products"] = $_POST["products"];
 }
 
 function displayConfirmation()
 {
-    global $products;
+    global $products, $weatherProducts, $totalValue;
 
+    $totalValue = 0;
     $confirmationMessage = "Thank you for ordering:";
 
     foreach ($_POST["products"] as $index => $product) {
-        $confirmationMessage .= " " . $products[$index]["name"] . " x " . $_POST["amounts"][$index];
+        if ($_GET["weather"] == 0) {
+            $confirmationMessage .= " " . $products[$index]["name"] . " x " . $_POST["amounts"][$index];
+            $totalValue += $products[$index]["price"] * $_POST["amounts"][$index];
+        }
+        else if ($_GET["weather"] == 1) {
+            $confirmationMessage .= " " . $weatherProducts[$index]["name"] . " x " . $_POST["amounts"][$index];
+            $totalValue += $weatherProducts[$index]["price"] * $_POST["amounts"][$index];
+        }
+        
     }
 
     $confirmationMessage .= ". You order will be delivered shortly to " . $_POST["street"] . " " . $_POST["streetnumber"] . ", " . $_POST["city"] . " " . $_POST["zipcode"] . " !";
